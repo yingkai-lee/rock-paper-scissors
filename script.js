@@ -1,5 +1,7 @@
 let choices = ['Rock','Paper','Scissors'];
 let state = 0; // 0-tie, 1-win, 2-loss
+let playerScore = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
 	return choices[Math.floor(Math.random() * 3)];
@@ -22,6 +24,7 @@ function playRound(playerSelection, computerSelection) {
 			 pSelect == scenario3[0] && cSelect == scenario3[1]){
 
 		state = 1;
+		playerScore ++;
 		return "You win! " + playerSelection + " vs " + computerSelection;
 	}
 	else if (cSelect == scenario1[0] && pSelect == scenario1[1] || 
@@ -29,6 +32,7 @@ function playRound(playerSelection, computerSelection) {
 			 cSelect == scenario3[0] && pSelect == scenario3[1]){
 
 		state = 2;
+		computerScore ++;
 		return "You lose! " + playerSelection + " vs " + computerSelection;
 	}
 	return "????";
@@ -56,13 +60,31 @@ function game() {
 
 //game();
 let bodyElement = document.getElementsByTagName('body')[0];
+let scoreElement = document.createElement('div');
+let outputElement = document.createElement('div');
+bodyElement.appendChild(scoreElement);
+bodyElement.appendChild(outputElement);
 let choiceButtons = [];
 for (const choice of choices){
 	let button = document.createElement('button');
 	button.textContent = choice;
 	button.addEventListener("click", function(){
 		let roundReturn = playRound(choice, getComputerChoice());
-		console.log(roundReturn);
+		outputElement.textContent = roundReturn;
+
+		if (playerScore == 5 || computerScore == 5){
+			if (playerScore == 5){
+				scoreElement.textContent = "You've won 5 rounds!";
+			}
+			else if (computerScore == 5){
+				scoreElement.textContent = "You've lost 5 rounds!";
+			}
+			playerScore = 0;
+			computerScore = 0;
+		}
+		else{
+			scoreElement.textContent = "Your score: " + playerScore + "; " + "Computer score: " + computerScore;
+		}
 	});
 	choiceButtons.push(button);
 	bodyElement.appendChild(button);
