@@ -51,8 +51,22 @@ function game() {
 		}
 	}
 	console.log(`Your score: ${score}`);
-	console.log(`Computer score: ${5-score-ties}`)
+	console.log(`Computer score: ${5-score-ties}`);
 }
 
-game();
+//game();
+let bodyElement = document.getElementsByTagName('body')[0];
+let choiceButtons = [];
+for (const choice of choices){
+	let button = document.createElement('button');
+	button.textContent = choice;
+	button.addEventListener("click", function(){
+		let roundReturn = playRound(choice, getComputerChoice());
+		console.log(roundReturn);
+	});
+	choiceButtons.push(button);
+	bodyElement.appendChild(button);
+}
+
+
 
